@@ -1,5 +1,6 @@
 package com.example.edenappbeta;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -17,8 +18,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListner);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SensorFragment()).commit();
     }
 
     @Override
@@ -27,6 +31,26 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.top_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Fragment selectedFragment = null;
+
+        switch (item.getItemId()) {
+            case R.id.notifi1:
+                selectedFragment = new NotifiFragment();
+                break;
+            case R.id.settings1:
+                selectedFragment = new SettingsFragment();
+                break;
+
+
+
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        return true;
+    }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListner =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

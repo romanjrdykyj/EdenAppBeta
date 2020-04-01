@@ -4,12 +4,12 @@
 
     <item android:id="@+id/notifi1"
         android:icon="@drawable/ic_notifi"
-        android:title="Notifi 1"
+        android:title="Notifi"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/settings1"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Settings 1"
+        android:title="Settings"
         app:showAsAction="ifRoom"/>
 
 
