@@ -1,4 +1,4 @@
-package com.example.edenappbeta;
+package com.example.edenappbeta.NotifiSlide;
 
 import android.support.v4.app.Fragment;
 

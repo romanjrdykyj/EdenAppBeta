@@ -1,4 +1,4 @@
-package com.example.edenappbeta;
+package com.example.edenappbeta.AutoSlide;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ManualFragment extends Fragment {
+import com.example.edenappbeta.R;
+
+public class OswietlenieFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_manual, container, false);
+        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.auto_oswietlenie, container,false);
+        return rootView;
     }
 }
