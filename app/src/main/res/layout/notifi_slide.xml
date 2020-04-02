@@ -10,6 +10,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="173dp"
         android:layout_marginTop="124dp"
-        android:text="Temp" />
+        android:text="NOtifi" />
 
 </RelativeLayout>

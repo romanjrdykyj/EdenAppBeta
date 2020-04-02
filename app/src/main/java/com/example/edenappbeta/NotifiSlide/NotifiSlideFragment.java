@@ -1,4 +1,4 @@
-package com.example.edenappbeta.SensorSlide;
+package com.example.edenappbeta.NotifiSlide;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 
 import com.example.edenappbeta.R;
 
-public class SensorWaterFragment extends Fragment {
+public class NotifiSlideFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.sensor_water, container,false);
+        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.notifi_slide, container,false);
         return rootView;
     }
 }
