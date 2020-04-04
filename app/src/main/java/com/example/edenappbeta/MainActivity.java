@@ -178,20 +178,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBt (View view)
     {
-        if(bluetoothAdapter == null)
-        {
-            Toast.makeText(getApplicationContext(), "Bluetooth is not supported on this phone!", Toast.LENGTH_SHORT).show();
-        }
 
-        else
-        {
             if (!bluetoothAdapter.isEnabled())
             {
                 Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(i,1);
             }
 
-        }
+        
     }
 
     @Override
