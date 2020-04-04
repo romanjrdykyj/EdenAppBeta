@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.edenappbeta.AutoSlide.NawadnianieFragment;
@@ -40,6 +42,8 @@ import com.example.edenappbeta.SettingsSlide.SettingsFirebaseFragment;
 import com.example.edenappbeta.SettingsSlide.SettingsFlowerFragment;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             BluetoothAdapter bluetoothAdapter;
+            int connection = 0;
 
 
 
@@ -85,9 +90,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     }
 
+
+    public void connect (View view)
+    {
+        Intent intentOpenBluetoothSettings = new Intent();
+        intentOpenBluetoothSettings.setAction(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
+        startActivity(intentOpenBluetoothSettings);
+    }
+
+    public void connected (View view)
+    {
+        
+
+    }
 
     public void onBt (View view)
     {
