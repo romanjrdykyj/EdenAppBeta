@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void connected (View view)
     {
-
+        info_device = false;
         if(info_device == false)
         {
             Toast.makeText(getApplicationContext(), "Error! Check bluetooth power or pair device!", Toast.LENGTH_SHORT).show();
@@ -179,13 +179,19 @@ public class MainActivity extends AppCompatActivity {
     public void onBt (View view)
     {
 
-            if (!bluetoothAdapter.isEnabled())
-            {
-                Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(i,1);
-            }
+        if (!bluetoothAdapter.isEnabled())
+        {
+            Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(i,1);
+        }
+        if (bluetoothAdapter.isEnabled())
+        {
+            Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(i,2);
+        }
 
-        
+
+
     }
 
     @Override
