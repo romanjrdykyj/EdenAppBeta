@@ -138,10 +138,7 @@ public class MainActivity extends AppCompatActivity {
     public void connected (View view)
     {
         info_device = false;
-        if(info_device == false)
-        {
-            Toast.makeText(getApplicationContext(), "Error! Check bluetooth power or pair device!", Toast.LENGTH_SHORT).show();
-        }
+
 
         for (BluetoothDevice bt : bluetoothAdapter.getBondedDevices())
         {
@@ -165,10 +162,16 @@ public class MainActivity extends AppCompatActivity {
             {
 
                 Toast.makeText(getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
+                info_device = true;
             }
-            else {
+            /*else {
                 Toast.makeText(getApplicationContext(), "Error! Check bluetooth power or pair device!", Toast.LENGTH_SHORT).show();
-            }
+            }*/
+        }
+
+        if(info_device == false)
+        {
+            Toast.makeText(getApplicationContext(), "Error! Check bluetooth power or pair device!", Toast.LENGTH_SHORT).show();
         }
 
 
