@@ -1,6 +1,7 @@
 package com.example.edenappbeta;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,6 +47,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,8 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private    PagerAdapter pagerAdapter;
 
 
-            BluetoothAdapter bluetoothAdapter;
-            int connection = 0;
+    BluetoothAdapter bluetoothAdapter;
+    boolean info_device = false;
+
 
 
 
@@ -69,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListner);
 
 
-
         List<Fragment> list_start = new ArrayList<>();
         list_start.add(new SensorSoilFragment());
         list_start.add(new SensorTempFragment());
@@ -82,16 +84,49 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(pagerAdapter);
 
 
-
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SensorFragment()).commit();
 
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        for (BluetoothDevice bt : bluetoothAdapter.getBondedDevices())
+        {
+            char[] pobrane = bt.getAddress().toCharArray();
+            char[] wzor = new char[6];
+            wzor[0] = '2';
+            wzor[1] = '4';
+            wzor[2] = ':';
+            wzor[3] = '6';
+            wzor[4] = 'F';
+            wzor[5] = '8';
+
+            if     (wzor[0] == pobrane[0] &
+                    wzor[1] == pobrane[1] &
+                    wzor[2] == pobrane[2] &
+                    wzor[3] == pobrane[3] &
+                    wzor[4] == pobrane[4] &
+                    wzor[2] == pobrane[5] &
+                    wzor[0] == pobrane[6] &
+                    wzor[5] == pobrane[7] )
+            {
+                info_device = true;
+                //Toast.makeText(getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        if (info_device == true)
+        {
+            Toast.makeText(getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Please connecting with EdenLand!", Toast.LENGTH_SHORT).show();
+        }
+
 
 
     }
-
 
     public void connect (View view)
     {
@@ -102,7 +137,42 @@ public class MainActivity extends AppCompatActivity {
 
     public void connected (View view)
     {
-        
+
+        if(info_device == false)
+        {
+            Toast.makeText(getApplicationContext(), "Error! Check bluetooth power or pair device!", Toast.LENGTH_SHORT).show();
+        }
+
+        for (BluetoothDevice bt : bluetoothAdapter.getBondedDevices())
+        {
+            char[] pobrane = bt.getAddress().toCharArray();
+            char[] wzor = new char[6];
+            wzor[0] = '2';
+            wzor[1] = '4';
+            wzor[2] = ':';
+            wzor[3] = '6';
+            wzor[4] = 'F';
+            wzor[5] = '8';
+
+            if     (wzor[0] == pobrane[0] &
+                    wzor[1] == pobrane[1] &
+                    wzor[2] == pobrane[2] &
+                    wzor[3] == pobrane[3] &
+                    wzor[4] == pobrane[4] &
+                    wzor[2] == pobrane[5] &
+                    wzor[0] == pobrane[6] &
+                    wzor[5] == pobrane[7] )
+            {
+
+                Toast.makeText(getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Error! Check bluetooth power or pair device!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
 
     }
 
@@ -120,11 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(i,1);
             }
-            if(bluetoothAdapter.isEnabled())
-            {
-                Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(i,2);
-            }
+
         }
     }
 
@@ -141,10 +207,7 @@ public class MainActivity extends AppCompatActivity {
         {
             if (resultCode == RESULT_OK)
             {
-                ImageView imageBlue = findViewById(R.id.imageBlue);
-                imageBlue.setImageResource(R.drawable.ic_action_on);
                 Toast.makeText(getApplicationContext(), "The bluetooth is enabled!", Toast.LENGTH_SHORT).show();
-
             }
         }
     }
