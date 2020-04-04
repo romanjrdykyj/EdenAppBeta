@@ -1,6 +1,9 @@
 package com.example.edenappbeta;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -10,6 +13,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.edenappbeta.AutoSlide.NawadnianieFragment;
 import com.example.edenappbeta.AutoSlide.OswietlenieFragment;
@@ -39,8 +45,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-private    ViewPager pager;
-private    PagerAdapter pagerAdapter;
+    private    ViewPager pager;
+    private    PagerAdapter pagerAdapter;
+
+
+            BluetoothAdapter bluetoothAdapter;
+
+
 
 
     @Override
@@ -67,9 +78,58 @@ private    PagerAdapter pagerAdapter;
 
 
 
-
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SensorFragment()).commit();
 
+
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+
+
+
+    }
+
+
+    public void onBt (View view)
+    {
+        if(bluetoothAdapter == null)
+        {
+            Toast.makeText(getApplicationContext(), "Bluetooth is not supported on this phone!", Toast.LENGTH_SHORT).show();
+        }
+
+        else
+        {
+            if (!bluetoothAdapter.isEnabled())
+            {
+                Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(i,1);
+            }
+            if(bluetoothAdapter.isEnabled())
+            {
+                Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(i,2);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == 1)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                Toast.makeText(getApplicationContext(), "The bluetooth is enabled!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode == 2)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                ImageView imageBlue = findViewById(R.id.imageBlue);
+                imageBlue.setImageResource(R.drawable.ic_action_on);
+                Toast.makeText(getApplicationContext(), "The bluetooth is enabled!", Toast.LENGTH_SHORT).show();
+
+            }
+        }
     }
 
     @Override
@@ -158,7 +218,6 @@ private    PagerAdapter pagerAdapter;
             };
 
     };
-
 
 
 
