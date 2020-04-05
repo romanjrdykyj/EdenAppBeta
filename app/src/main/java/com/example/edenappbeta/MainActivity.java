@@ -270,7 +270,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnOnWaterManual(View v) {
-        sendData("1");
+        sendData("g");
+        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+    }
+
+    public void btnOffWaterManual(View v) {
+        sendData("h");
+        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void btnOnLightManual(View v) {
+        sendData("j");
+        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+    }
+
+    public void btnOffLightManual(View v) {
+        sendData("k");
+        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+    }
+
+    public void btnOnSpritManual(View v) {
+        sendData("m");
+        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+    }
+
+    public void btnOffSpritManual(View v) {
+        sendData("n");
         Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
     }
 
