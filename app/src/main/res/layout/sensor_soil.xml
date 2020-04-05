@@ -3,13 +3,12 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtArduino"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="173dp"
-        android:layout_marginTop="124dp"
-        android:text="Soil" />
-
+        android:layout_marginStart="169dp"
+        android:layout_marginTop="125dp"
+        android:text="TextView" />
 </RelativeLayout>

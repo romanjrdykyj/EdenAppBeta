@@ -84,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()) {
+            Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(i, 1);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -107,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SensorFragment()).commit();
 
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         for (BluetoothDevice bt : bluetoothAdapter.getBondedDevices())
         {
@@ -270,34 +275,64 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnOnWaterManual(View v) {
-        sendData("g");
-        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+        if (!bluetoothAdapter.isEnabled() | check_connect() == false) {
+            Toast.makeText(getBaseContext(), "Not connect with BT!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            sendData("g");
+            Toast.makeText(getBaseContext(), "Turn on!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void btnOffWaterManual(View v) {
-        sendData("h");
-        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+        if (!bluetoothAdapter.isEnabled() | check_connect() == false) {
+            Toast.makeText(getBaseContext(), "Not connect with BT!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            sendData("h");
+            Toast.makeText(getBaseContext(), "Turn off!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
     public void btnOnLightManual(View v) {
-        sendData("j");
-        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+        if (!bluetoothAdapter.isEnabled() | check_connect() == false) {
+            Toast.makeText(getBaseContext(), "Not connect with BT!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            sendData("j");
+            Toast.makeText(getBaseContext(), "Turn on!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void btnOffLightManual(View v) {
-        sendData("k");
-        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+        if (!bluetoothAdapter.isEnabled() | check_connect() == false) {
+            Toast.makeText(getBaseContext(), "Not connect with BT!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            sendData("k");
+            Toast.makeText(getBaseContext(), "Turn off!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void btnOnSpritManual(View v) {
-        sendData("m");
-        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+        if (!bluetoothAdapter.isEnabled() | check_connect() == false) {
+            Toast.makeText(getBaseContext(), "Not connect with BT!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            sendData("m");
+            Toast.makeText(getBaseContext(), "Turn on!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void btnOffSpritManual(View v) {
-        sendData("n");
-        Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
+        if (!bluetoothAdapter.isEnabled() | check_connect() == false) {
+            Toast.makeText(getBaseContext(), "Not connect with BT!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            sendData("n");
+            Toast.makeText(getBaseContext(), "Turn off!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -310,6 +345,47 @@ public class MainActivity extends AppCompatActivity {
         Intent intentOpenBluetoothSettings = new Intent();
         intentOpenBluetoothSettings.setAction(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
         startActivity(intentOpenBluetoothSettings);
+    }
+
+    public boolean check_connect(){
+        info_device = false;
+
+
+        for (BluetoothDevice bt : bluetoothAdapter.getBondedDevices())
+        {
+            char[] pobrane = bt.getAddress().toCharArray();
+            char[] wzor = new char[6];
+            wzor[0] = '2';
+            wzor[1] = '4';
+            wzor[2] = ':';
+            wzor[3] = '6';
+            wzor[4] = 'F';
+            wzor[5] = '8';
+
+            if     (wzor[0] == pobrane[0] &
+                    wzor[1] == pobrane[1] &
+                    wzor[2] == pobrane[2] &
+                    wzor[3] == pobrane[3] &
+                    wzor[4] == pobrane[4] &
+                    wzor[2] == pobrane[5] &
+                    wzor[0] == pobrane[6] &
+                    wzor[5] == pobrane[7] )
+            {
+
+                Toast.makeText(getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
+                info_device = true;
+            }
+            /*else {
+                Toast.makeText(getApplicationContext(), "Error! Check bluetooth power or pair device!", Toast.LENGTH_SHORT).show();
+            }*/
+        }
+
+        if(info_device == false)
+        {
+            return false;
+        }else {
+            return true;
+        }
     }
 
     public void connected (View view)
