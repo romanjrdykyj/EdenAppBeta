@@ -19,8 +19,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +60,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -74,26 +78,24 @@ public class MainActivity extends AppCompatActivity {
     //rodzaj bledu polaczania BT
     int rodzaj_bledu=-1;
 
-
-
     //zmienne do BT
     BluetoothAdapter bluetoothAdapter;
     private BluetoothSocket btSocket = null;
     private OutputStream outStream = null;
     private static final String TAG = "BT";
-
+    //zmienne do obslugi handlera i BT
     private StringBuilder sb = new StringBuilder();
     private ConnectedThread mConnectedThread;
     Handler h;
-    final int RECIEVE_MESSAGE = 1;        // Status  for Handler
-    TextView test;
+    final int RECIEVE_MESSAGE = 1;
+
+    public ArrayList<String> arrayList=new ArrayList<>();
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        test=(TextView)findViewById(R.id.test);
         //właczenie BT przy samym starcie
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!bluetoothAdapter.isEnabled()) {
@@ -142,33 +144,13 @@ public class MainActivity extends AppCompatActivity {
                         endOfLineIndex = sb.indexOf("\n");
                         if(endOfLineIndex>0)
                         {
-                            ((TextView) findViewById(R.id.test)).setText("Data from Arduino: " + sb);
+                            arrayList.add(sb.toString());
+                            ListView idAlerty = findViewById(R.id.alerty);
+                            ArrayAdapter arrayAdapter=new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,arrayList);
+                            idAlerty.setAdapter(arrayAdapter);
+                            //((TextView) findViewById(R.id.test)).setText(sb);
                             sb.setLength(0);
                         }
-
-
-
-
-
-
-                        // if receive massage
-                        /*byte[] readBuf = (byte[]) msg.obj;
-                        String strIncom = new String(readBuf, 0, msg.arg1);                 // create string from bytes array
-                        sb.append(strIncom);                                                // append string
-                        int endOfLineIndex = sb.indexOf("\r\n");                            // determine the end-of-line
-                        if (endOfLineIndex > 0) {                                            // if end-of-line,
-                            String sbprint = sb.substring(0, endOfLineIndex);               // extract string
-                            sb.delete(0, sb.length());
-                           // ((TextView) findViewById(R.id.test)).setText("Data from Arduino: " + sb);   // and clear
-                           // test.setText("Data from Arduino: " + sb);            // update TextView
-                            Log.d(TAG, "DZIALAAAAAdsadasd");
-
-                        }
-                        ((TextView) findViewById(R.id.test)).setText(sb);
-                        Log.d(TAG, "...String:"+ sb.toString() +  "Byte:" + msg.arg1 + "...");
-                        break;
-
-                         */
                 }
             };
         };
@@ -366,12 +348,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // pozmieniac sendy
+
     //sterowanie przyciskami w zakladce manual
     public void btnOnWaterManual(View v)
     {
         if (check_connected()==1) {
-            mConnectedThread.write("f");    // Send "1" via Bluetooth
+            mConnectedThread.write("g");
             Toast.makeText(getBaseContext(), "Turn on!", Toast.LENGTH_SHORT).show();
         }
         else if (check_connected()==2){
@@ -385,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnOffWaterManual(View v)
     {
         if (check_connected()==1) {
-            mConnectedThread.write("b");    // Send "1" via Bluetooth
+            mConnectedThread.write("h");
             Toast.makeText(getBaseContext(), "Turn off!", Toast.LENGTH_SHORT).show();
         }
         else if (check_connected()==2){
@@ -399,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnOnLightManual(View v)
     {
         if (check_connected()==1) {
-            //sendData("g");
+            mConnectedThread.write("j");
             Toast.makeText(getBaseContext(), "Turn on!", Toast.LENGTH_SHORT).show();
         }
         else if (check_connected()==2){
@@ -413,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnOffLightManual(View v)
     {
         if (check_connected()==1) {
-            //sendData("g");
+            mConnectedThread.write("k");
             Toast.makeText(getBaseContext(), "Turn off!", Toast.LENGTH_SHORT).show();
         }
         else if (check_connected()==2){
@@ -427,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnOnSpritManual(View v)
     {
         if (check_connected()==1) {
-            //sendData("g");
+            mConnectedThread.write("m");
             Toast.makeText(getBaseContext(), "Turn on!", Toast.LENGTH_SHORT).show();
         }
         else if (check_connected()==2){
@@ -441,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnOffSpritManual(View v)
     {
         if (check_connected()==1) {
-            //sendData("g");
+            mConnectedThread.write("n");
             Toast.makeText(getBaseContext(), "Turn off!", Toast.LENGTH_SHORT).show();
         }
         else if (check_connected()==2){
@@ -452,6 +434,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please power BT!", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         if(Build.VERSION.SDK_INT >= 10){
@@ -468,16 +451,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
         Log.d(TAG, "...onResume - try connect...");
 
-        // Set up a pointer to the remote node using it's address.
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
-
-        // Two things are needed to make a connection:
-        //   A MAC address, which we got above.
-        //   A Service ID or UUID.  In this case we are using the
-        //     UUID for SPP.
 
         try {
             btSocket = createBluetoothSocket(device);
@@ -485,15 +461,10 @@ public class MainActivity extends AppCompatActivity {
             errorExit("Fatal Error", "In onResume() and socket create failed: " + e.getMessage() + ".");
         }
 
-        // Discovery is resource intensive.  Make sure it isn't going on
-        // when you attempt to connect and pass your message.
         bluetoothAdapter.cancelDiscovery();
 
-        // Establish the connection.  This will block until it connects.
-        Log.d(TAG, "...Connecting...");
         try {
             btSocket.connect();
-            Log.d(TAG, "....Connection ok...");
         } catch (IOException e) {
             try {
                 btSocket.close();
@@ -501,9 +472,6 @@ public class MainActivity extends AppCompatActivity {
                 errorExit("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
             }
         }
-
-        // Create a data stream so we can talk to server.
-        Log.d(TAG, "...Create Socket...");
 
         mConnectedThread = new ConnectedThread(btSocket);
         mConnectedThread.start();
@@ -536,8 +504,6 @@ public class MainActivity extends AppCompatActivity {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
 
-            // Get the input and output streams, using temp objects because
-            // member streams are final
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
@@ -548,22 +514,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void run() {
-            byte[] buffer = new byte[256];  // buffer store for the stream
-            int bytes; // bytes returned from read()
+            byte[] buffer = new byte[256];
+            int bytes;
 
-            // Keep listening to the InputStream until an exception occurs
+
             while (true) {
                 try {
-                    // Read from the InputStream
-                    bytes = mmInStream.read(buffer);        // Get number of bytes and message in "buffer"
-                    h.obtainMessage(RECIEVE_MESSAGE, bytes, -1, buffer).sendToTarget();     // Send to message queue Handler
+
+                    bytes = mmInStream.read(buffer);
+                    h.obtainMessage(RECIEVE_MESSAGE, bytes, -1, buffer).sendToTarget();
                 } catch (IOException e) {
                     break;
                 }
             }
         }
 
-        /* Call this from the main activity to send data to the remote device */
+
         public void write(String message) {
             Log.d(TAG, "...Data to send: " + message + "...");
             byte[] msgBuffer = message.getBytes();
@@ -574,4 +540,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+
 }
