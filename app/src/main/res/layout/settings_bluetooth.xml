@@ -39,7 +39,7 @@
         android:layout_marginTop="275dp"
         android:minWidth="200dp"
         android:text="List Device"
-        android:onClick="connect"/>
+        android:onClick="show_listdevice"/>
     <Button
         android:id="@+id/Connected"
         style="@style/Base.Widget.AppCompat.Button.Colored"
@@ -51,11 +51,11 @@
         android:layout_marginTop="325dp"
         android:minWidth="200dp"
         android:text="Connect"
-        android:onClick="connected"/>
+        android:onClick="connect"/>
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/nextpageBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

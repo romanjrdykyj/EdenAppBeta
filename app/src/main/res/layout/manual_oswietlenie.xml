@@ -53,7 +53,7 @@
         android:text="Turn On" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/previousPageLight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -61,7 +61,7 @@
         app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/nextPageLight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
