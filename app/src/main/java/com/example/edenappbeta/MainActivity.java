@@ -86,14 +86,14 @@ public class MainActivity extends AppCompatActivity {
     private ConnectedThread mConnectedThread;
     Handler h;
     final int RECIEVE_MESSAGE = 1;        // Status  for Handler
-    TextView txtArduino;
+    TextView test;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        txtArduino=(TextView)findViewById(R.id.txtArduino);
+        test=(TextView)findViewById(R.id.test);
         //właczenie BT przy samym starcie
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!bluetoothAdapter.isEnabled()) {
@@ -134,18 +134,41 @@ public class MainActivity extends AppCompatActivity {
         h = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 switch (msg.what) {
-                    case RECIEVE_MESSAGE:                                                   // if receive massage
+                    case RECIEVE_MESSAGE:
                         byte[] readBuf = (byte[]) msg.obj;
+                        String tempMsg=new String(readBuf,0,msg.arg1);
+                        sb.append(tempMsg);
+                        int endOfLineIndex=-1;
+                        endOfLineIndex = sb.indexOf("\n");
+                        if(endOfLineIndex>0)
+                        {
+                            ((TextView) findViewById(R.id.test)).setText("Data from Arduino: " + sb);
+                            sb.setLength(0);
+                        }
+
+
+
+
+
+
+                        // if receive massage
+                        /*byte[] readBuf = (byte[]) msg.obj;
                         String strIncom = new String(readBuf, 0, msg.arg1);                 // create string from bytes array
                         sb.append(strIncom);                                                // append string
                         int endOfLineIndex = sb.indexOf("\r\n");                            // determine the end-of-line
                         if (endOfLineIndex > 0) {                                            // if end-of-line,
                             String sbprint = sb.substring(0, endOfLineIndex);               // extract string
-                            sb.delete(0, sb.length());                                      // and clear
-                            txtArduino.setText("Data from Arduino: " + sbprint);            // update TextView
+                            sb.delete(0, sb.length());
+                           // ((TextView) findViewById(R.id.test)).setText("Data from Arduino: " + sb);   // and clear
+                           // test.setText("Data from Arduino: " + sb);            // update TextView
+                            Log.d(TAG, "DZIALAAAAAdsadasd");
+
                         }
+                        ((TextView) findViewById(R.id.test)).setText(sb);
                         Log.d(TAG, "...String:"+ sb.toString() +  "Byte:" + msg.arg1 + "...");
                         break;
+
+                         */
                 }
             };
         };
