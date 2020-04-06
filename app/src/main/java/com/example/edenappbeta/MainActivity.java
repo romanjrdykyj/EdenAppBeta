@@ -56,6 +56,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -144,8 +145,10 @@ public class MainActivity extends AppCompatActivity {
                         endOfLineIndex = sb.indexOf("\n");
                         if(endOfLineIndex>0)
                         {
+                            Collections.reverse(arrayList);
                             arrayList.add(sb.toString());
                             ListView idAlerty = findViewById(R.id.alerty);
+                            Collections.reverse(arrayList);
                             ArrayAdapter arrayAdapter=new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,arrayList);
                             idAlerty.setAdapter(arrayAdapter);
                             //((TextView) findViewById(R.id.test)).setText(sb);
