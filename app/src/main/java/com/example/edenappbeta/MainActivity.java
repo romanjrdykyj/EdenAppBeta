@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,9 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(android.os.Message msg) {
                 switch (msg.what) {
                     case RECIEVE_MESSAGE:
-                        byte[] readBuf = (byte[]) msg.obj;
-                        String tempMsg=new String(readBuf,0,msg.arg1);
-                        sb.append(tempMsg);
+                        sb.append(msg.obj);
                         int endOfLineIndex=-1;
                         endOfLineIndex = sb.indexOf("\n");
                         if(endOfLineIndex>0)
@@ -525,7 +524,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
 
                     bytes = mmInStream.read(buffer);
-                    h.obtainMessage(RECIEVE_MESSAGE, bytes, -1, buffer).sendToTarget();
+                    String readMessage = new String(buffer,0,bytes);
+                    h.obtainMessage(RECIEVE_MESSAGE,readMessage).sendToTarget();
+                   // h.obtainMessage(RECIEVE_MESSAGE, bytes, -1, buffer).sendToTarget();
                 } catch (IOException e) {
                     break;
                 }
