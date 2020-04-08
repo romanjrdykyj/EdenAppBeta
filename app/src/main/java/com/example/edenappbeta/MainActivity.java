@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     // MAC do połączenia BT
     private static String address = "24:6F:28:AE:0D:86";
+    private static String name = "ESP32_LED_Control";
 
     //rodzaj bledu polaczania BT
     int rodzaj_bledu=-1;
@@ -309,23 +310,7 @@ public class MainActivity extends AppCompatActivity {
         {
             for (BluetoothDevice bt : bluetoothAdapter.getBondedDevices())
             {
-                char[] pobrane = bt.getAddress().toCharArray();
-                char[] wzor = new char[6];
-                wzor[0] = '2';
-                wzor[1] = '4';
-                wzor[2] = ':';
-                wzor[3] = '6';
-                wzor[4] = 'F';
-                wzor[5] = '8';
-
-                if (wzor[0] == pobrane[0] &
-                        wzor[1] == pobrane[1] &
-                        wzor[2] == pobrane[2] &
-                        wzor[3] == pobrane[3] &
-                        wzor[4] == pobrane[4] &
-                        wzor[2] == pobrane[5] &
-                        wzor[0] == pobrane[6] &
-                        wzor[5] == pobrane[7])
+                if (bt.getName().compareTo(name)==0)
                 {
                     return 1;
                 }
