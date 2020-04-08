@@ -94,7 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<String> arrayList=new ArrayList<>();
 
-
+    StringBuilder idAL = new StringBuilder("AL");
+    StringBuilder idSO = new StringBuilder("SO");
+    StringBuilder idLI = new StringBuilder("LI");
+    StringBuilder idHU = new StringBuilder("HU");
+    StringBuilder idWA = new StringBuilder("WA");
+    StringBuilder idTE = new StringBuilder("TE");
+    StringBuilder idOW = new StringBuilder("OW");
 
 
     @Override
@@ -147,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                         {
                             StringBuilder sbID = new StringBuilder(sb);
                             sbID.setLength(2);
-                            StringBuilder idAL = new StringBuilder("AL");
                             if ((sbID.toString()).compareTo((idAL.toString()))==0) {
                                 sb.delete(0,4); //format w ESP -> AL: TUTAJ TEKST WIADOMOSCI
                                 Collections.reverse(arrayList);
@@ -156,8 +161,25 @@ public class MainActivity extends AppCompatActivity {
                                 Collections.reverse(arrayList);
                                 ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, arrayList);
                                 idAlerty.setAdapter(arrayAdapter);
-                                //((TextView) findViewById(R.id.test)).setText(sb);
                                 sb.setLength(0);
+                            }
+                            if ((sbID.toString()).compareTo((idSO.toString()))==0) {
+
+                            }
+                            if ((sbID.toString()).compareTo((idLI.toString()))==0) {
+
+                            }
+                            if ((sbID.toString()).compareTo((idHU.toString()))==0) {
+
+                            }
+                            if ((sbID.toString()).compareTo((idWA.toString()))==0) {
+
+                            }
+                            if ((sbID.toString()).compareTo((idTE.toString()))==0) {
+
+                            }
+                            if ((sbID.toString()).compareTo((idOW.toString()))==0) {
+
                             }
                         }
                 }
@@ -302,8 +324,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentOpenBluetoothSettings);
     }
 
-    //nie wiem czemu nie moglem tego zrobic prosciej ale pozniej spróbować
-    //sprawdzanie czy łączy się z ESP32 - dowolny model - pierwsze 3 segmenty z MAC
+    //sprawdzanie czy łączy się z ESP32 - dowolny model - pierwsze 3 segmenty z MAC lub po nazwie
     public int check_connected()
     {
         if(bluetoothAdapter.isEnabled())
