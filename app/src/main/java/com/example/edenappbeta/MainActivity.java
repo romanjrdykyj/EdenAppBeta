@@ -144,14 +144,20 @@ public class MainActivity extends AppCompatActivity {
                         endOfLineIndex = sb.indexOf("\n");
                         if(endOfLineIndex>0)
                         {
-                            Collections.reverse(arrayList);
-                            arrayList.add(sb.toString());
-                            ListView idAlerty = findViewById(R.id.alerty);
-                            Collections.reverse(arrayList);
-                            ArrayAdapter arrayAdapter=new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,arrayList);
-                            idAlerty.setAdapter(arrayAdapter);
-                            //((TextView) findViewById(R.id.test)).setText(sb);
-                            sb.setLength(0);
+                            StringBuilder sbID = new StringBuilder(sb);
+                            sbID.setLength(2);
+                            StringBuilder idAL = new StringBuilder("AL");
+                            if ((sbID.toString()).compareTo((idAL.toString()))==0) {
+                                sb.delete(0,4); //format w ESP -> AL: TUTAJ TEKST WIADOMOSCI
+                                Collections.reverse(arrayList);
+                                arrayList.add(sb.toString());
+                                ListView idAlerty = findViewById(R.id.alerty);
+                                Collections.reverse(arrayList);
+                                ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, arrayList);
+                                idAlerty.setAdapter(arrayAdapter);
+                                //((TextView) findViewById(R.id.test)).setText(sb);
+                                sb.setLength(0);
+                            }
                         }
                 }
             };
@@ -216,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                             list_sensor.add(new SensorLightFragment());
                             list_sensor.add(new SensorOwnFragment());
                             list_sensor.add(new SensorWaterFragment());
-
                             pager = findViewById(R.id.view_pager);
                             pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager(), list_sensor);
                             pager.setAdapter(pagerAdapter);
